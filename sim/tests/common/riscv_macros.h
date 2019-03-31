@@ -175,19 +175,38 @@ _run_test:
 //-----------------------------------------------------------------------
 // Pass/Fail Macro
 //-----------------------------------------------------------------------
+	.section .data; 
+	RVTEST_PASS_text: .string "done\n";
+        RVTEST_FAIL_text: .string "fail\n";                               
+	//.align 9
+#define RVTEST_PASSFAIL_PRINT(text_ptr)				\
+	la a0, text_ptr;					\
+	li a1, 0xf0000000;						\
+3:	lb a2, 0(a0);							\
+	beq a2, x0, 4f; 						\
+	sb a2, 0(a1);							\
+	addi a0, a0, 1;							\
+	j 3b; 							   	\
+4:
+//по неизвестной причине "0:" "1:" "L...^" неработали...
+//local symbols
+	
+	
 
 #define RVTEST_PASS                                                     \
         fence;                                                          \
-        mv a1, TESTNUM;                                                 \
-        li  a0, 0x0;                                                    \
-        ecall
+	RVTEST_PASSFAIL_PRINT (RVTEST_PASS_text);			\
+	mv a1, TESTNUM; 						\
+	li a0, 0x0;							\
+	ecall
 
 #define TESTNUM x28
 #define RVTEST_FAIL                                                     \
         fence;                                                          \
-        mv a1, TESTNUM;                                                 \
-        li  a0, 0x1;                                                    \
-        ecall
+        RVTEST_PASSFAIL_PRINT (RVTEST_FAIL_text);                       \
+	mv a1, TESTNUM; 						\
+	li a0, 0x0;							\
+	ecall
 
 //-----------------------------------------------------------------------
 // Data Section Macro
@@ -810,7 +829,7 @@ pass: \
 # Test data section
 #-----------------------------------------------------------------------
 
-#define TEST_DATA
+#define TEST_DATA 
 
 #endif
 
