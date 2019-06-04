@@ -423,6 +423,9 @@ always_comb begin
         SCR1_IALU_CMD_OR : begin
             ialu_res    = ialu_op1 | ialu_op2;
         end
+        SCR1_IALU_CMD_CNCI : begin
+            ialu_res    = {ialu_op1[31:12],ialu_op2[11:0]};
+        end
         SCR1_IALU_CMD_XOR : begin
             ialu_res    = ialu_op1 ^ ialu_op2;
         end

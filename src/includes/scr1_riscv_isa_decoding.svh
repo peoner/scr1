@@ -23,6 +23,7 @@ typedef enum logic [1:0] {
 //-------------------------------------------------------------------------------
 typedef enum logic [6:2] {
     SCR1_OPCODE_LOAD        = 5'b00000,
+    SCR1_OPCODE_CUSTOM_0    = 5'b00010,
     SCR1_OPCODE_MISC_MEM    = 5'b00011,
     SCR1_OPCODE_OP_IMM      = 5'b00100,
     SCR1_OPCODE_AUIPC       = 5'b00101,
@@ -70,7 +71,8 @@ typedef enum logic [SCR1_IALU_CMD_WIDTH_E-1:0] {
     SCR1_IALU_CMD_SUB_GEU,      // op1 u>= op2
     SCR1_IALU_CMD_SLL,          // op1 << op2
     SCR1_IALU_CMD_SRL,          // op1 >> op2
-    SCR1_IALU_CMD_SRA           // op1 >>> op2
+    SCR1_IALU_CMD_SRA,          // op1 >>> op2
+    SCR1_IALU_CMD_CNCI          // {high(op1), low(op2)}
 `ifdef SCR1_RVM_EXT
     ,
     SCR1_IALU_CMD_MUL,          // low(unsig(op1) * unsig(op2))

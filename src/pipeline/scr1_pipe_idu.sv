@@ -242,6 +242,16 @@ always_comb begin
 `endif  // SCR1_RVE_EXT
                     end // SCR1_OPCODE_OP
 
+                    SCR1_OPCODE_CUSTOM_0: begin
+			idu2exu_use_rs1         = 1'b1;
+                        idu2exu_use_rd          = 1'b1;
+                        idu2exu_use_imm         = 1'b1;
+                        idu2exu_cmd.imm         = {{21{instr[31]}}, instr[30:20]};
+                        idu2exu_cmd.ialu_op     = SCR1_IALU_OP_REG_IMM;
+                        idu2exu_cmd.rd_wb_sel   = SCR1_RD_WB_IALU;
+			iidu2exu_cmd.ialu_cmd   = SCR1_IALU_CMD_CNCI;
+                    end // SCR1_OPCODE_CUSTOM_0
+
                     SCR1_OPCODE_OP_IMM          : begin
                         idu2exu_use_rs1         = 1'b1;
                         idu2exu_use_rd          = 1'b1;
